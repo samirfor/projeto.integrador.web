@@ -2,23 +2,30 @@
 error_reporting(E_ALL | E_STRICT);
 ini_set('display_errors', 1);
 
-$link = mysqli_connect("mysql", getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_DATABASE'));
+$cursos = array();
+$link = new mysqli("mysql", getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_DATABASE'));
 
 /* check connection */
-if (!$link) {
-  printf("Conexão ao banco falhou: %s\n", $mysqli->connect_error);
-  exit();
+if (mysqli_connect_error()) {
+  die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
 }
 
-echo '<pre>';
+// echo '<pre>';
+// printf("MySQL conn debug: %s %s %s %s\n", "mysql", getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_DATABASE'));
 
 
 /* Select queries return a resultset */
-if ($result = mysqli_query($link, "show tables")) {
-// if ($result = $mysqli->query("SELECT * FROM cursos")) {
-  // printf("Select returned %d rows.\n", $result->num_rows);
-  var_dump($result);
-
+// mysqli_query($link, "use mysql");
+// if ($query = mysqli_query($link, "show databases")) {
+if ($query = $link->query("SELECT * FROM curso")) {
+  // printf("Select returned %d rows.\n", $query->num_rows);
+  // var_dump($query);
+  if ($query->num_rows) {
+  //   while ($dados = $query->fetch_array()) {
+  //     var_dump($dados);
+  // }
+    $cursos = $query->fetch_all(MYSQLI_ASSOC);
+  }
   /* free result set */
   // $result->close();
 } else {
@@ -27,7 +34,7 @@ if ($result = mysqli_query($link, "show tables")) {
 }
 // $mysqli->close();
 mysqli_close($link);
-echo '</pre>';
+// echo '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -77,7 +84,7 @@ echo '</pre>';
         <div class="one-half column">
           <h5>Listar alunos por curso:</h5>
           <?php foreach ($cursos as $curso) : ?>
-          <a class="button" href="curso.php?acao=listar&id_curso=<?php echo $curso->id_curso; ?>"><?php echo $curso->curso_descricao; ?></a>
+          <a class="button" href="curso.php?acao=listar&id_curso=<?php echo $curso['id_curso']; ?>"><?php echo $curso['curso_descricao']; ?></a>
           <?php endforeach ?>
         </div>
       </div>
