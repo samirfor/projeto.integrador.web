@@ -2,13 +2,11 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-CREATE SCHEMA IF NOT EXISTS `pilpw` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
-USE `pilpw` ;
 
 -- -----------------------------------------------------
--- Table `pilpw`.`aluno`
+-- Table `aluno`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pilpw`.`aluno` (
+CREATE TABLE IF NOT EXISTS `aluno` (
   `numero_matricula` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nome_aluno` VARCHAR(255) NOT NULL,
   PRIMARY KEY (`numero_matricula`),
@@ -18,9 +16,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pilpw`.`curso`
+-- Table `curso`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pilpw`.`curso` (
+CREATE TABLE IF NOT EXISTS `curso` (
   `idcurso` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `curso_descricao` VARCHAR(45) NULL,
   PRIMARY KEY (`idcurso`))
@@ -28,9 +26,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pilpw`.`periodo`
+-- Table `periodo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pilpw`.`periodo` (
+CREATE TABLE IF NOT EXISTS `periodo` (
   `idperiodo` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `periodo_descricao` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idperiodo`),
@@ -39,9 +37,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `pilpw`.`matricula`
+-- Table `matricula`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `pilpw`.`matricula` (
+CREATE TABLE IF NOT EXISTS `matricula` (
   `idmatricula` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `numero_matricula` INT UNSIGNED NOT NULL,
   `curso_id` INT UNSIGNED NOT NULL,
@@ -53,17 +51,17 @@ CREATE TABLE IF NOT EXISTS `pilpw`.`matricula` (
   INDEX `fk_matricula_3_idx` (`periodo_id` ASC),
   CONSTRAINT `fk_matricula_1`
     FOREIGN KEY (`numero_matricula`)
-    REFERENCES `pilpw`.`aluno` (`numero_matricula`)
+    REFERENCES `aluno` (`numero_matricula`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_matricula_2`
     FOREIGN KEY (`curso_id`)
-    REFERENCES `pilpw`.`curso` (`idcurso`)
+    REFERENCES `curso` (`idcurso`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_matricula_3`
     FOREIGN KEY (`periodo_id`)
-    REFERENCES `pilpw`.`periodo` (`idperiodo`)
+    REFERENCES `periodo` (`idperiodo`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
@@ -74,25 +72,22 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `pilpw`.`curso`
+-- Data for table `curso`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `pilpw`;
-INSERT INTO `pilpw`.`curso` (`idcurso`, `curso_descricao`) VALUES (NULL, 'Inglês');
-INSERT INTO `pilpw`.`curso` (`idcurso`, `curso_descricao`) VALUES (NULL, 'Administração');
-INSERT INTO `pilpw`.`curso` (`idcurso`, `curso_descricao`) VALUES (NULL, 'Informática');
+INSERT INTO `curso` (`idcurso`, `curso_descricao`) VALUES (NULL, 'Inglês');
+INSERT INTO `curso` (`idcurso`, `curso_descricao`) VALUES (NULL, 'Administração');
+INSERT INTO `curso` (`idcurso`, `curso_descricao`) VALUES (NULL, 'Informática');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `pilpw`.`periodo`
+-- Data for table `periodo`
 -- -----------------------------------------------------
 START TRANSACTION;
-USE `pilpw`;
-INSERT INTO `pilpw`.`periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Manhã');
-INSERT INTO `pilpw`.`periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Tarde');
-INSERT INTO `pilpw`.`periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Noite');
+INSERT INTO `periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Manhã');
+INSERT INTO `periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Tarde');
+INSERT INTO `periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Noite');
 
 COMMIT;
-
