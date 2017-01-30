@@ -26,13 +26,13 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `periodo`
+-- Table `turno`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `periodo` (
-  `idperiodo` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `periodo_descricao` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idperiodo`),
-  UNIQUE INDEX `periodo_descricao_UNIQUE` (`periodo_descricao` ASC))
+CREATE TABLE IF NOT EXISTS `turno` (
+  `idturno` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `turno_descricao` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idturno`),
+  UNIQUE INDEX `periodo_descricao_UNIQUE` (`turno_descricao` ASC))
 ENGINE = InnoDB;
 
 
@@ -43,12 +43,12 @@ CREATE TABLE IF NOT EXISTS `matricula` (
   `idmatricula` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `numero_matricula` INT UNSIGNED NOT NULL,
   `curso_id` INT UNSIGNED NOT NULL,
-  `periodo_id` INT UNSIGNED NOT NULL,
+  `turno_id` INT UNSIGNED NOT NULL,
   `semestre` INT NOT NULL,
   PRIMARY KEY (`idmatricula`),
   INDEX `fk_matricula_1_idx` (`numero_matricula` ASC),
   INDEX `fk_matricula_2_idx` (`curso_id` ASC),
-  INDEX `fk_matricula_3_idx` (`periodo_id` ASC),
+  INDEX `fk_matricula_3_idx` (`turno_id` ASC),
   CONSTRAINT `fk_matricula_1`
     FOREIGN KEY (`numero_matricula`)
     REFERENCES `aluno` (`numero_matricula`)
@@ -60,8 +60,8 @@ CREATE TABLE IF NOT EXISTS `matricula` (
     ON DELETE RESTRICT
     ON UPDATE RESTRICT,
   CONSTRAINT `fk_matricula_3`
-    FOREIGN KEY (`periodo_id`)
-    REFERENCES `periodo` (`idperiodo`)
+    FOREIGN KEY (`turno_id`)
+    REFERENCES `turno` (`idturno`)
     ON DELETE RESTRICT
     ON UPDATE RESTRICT)
 ENGINE = InnoDB;
@@ -83,11 +83,11 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `periodo`
+-- Data for table `turno`
 -- -----------------------------------------------------
 START TRANSACTION;
-INSERT INTO `periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Manhã');
-INSERT INTO `periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Tarde');
-INSERT INTO `periodo` (`idperiodo`, `periodo_descricao`) VALUES (NULL, 'Noite');
+INSERT INTO `turno` (`idturno`, `turno_descricao`) VALUES (NULL, 'Manhã');
+INSERT INTO `turno` (`idturno`, `turno_descricao`) VALUES (NULL, 'Tarde');
+INSERT INTO `turno` (`idturno`, `turno_descricao`) VALUES (NULL, 'Noite');
 
 COMMIT;

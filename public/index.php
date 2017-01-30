@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL | E_STRICT);
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 $cursos = array();
@@ -10,31 +10,24 @@ if (mysqli_connect_error()) {
   die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
 }
 
-// echo '<pre>';
-// printf("MySQL conn debug: %s %s %s %s\n", "mysql", getenv('MYSQL_USER'), getenv('MYSQL_PASSWORD'), getenv('MYSQL_DATABASE'));
-
-
 /* Select queries return a resultset */
-// mysqli_query($link, "use mysql");
-// if ($query = mysqli_query($link, "show databases")) {
-if ($query = $link->query("SELECT * FROM curso")) {
-  // printf("Select returned %d rows.\n", $query->num_rows);
-  // var_dump($query);
+if ($query = $link->query("SELECT * FROM curso ORDER BY curso_descricao")) {
   if ($query->num_rows) {
-  //   while ($dados = $query->fetch_array()) {
-  //     var_dump($dados);
-  // }
     $cursos = $query->fetch_all(MYSQLI_ASSOC);
+  } else {
+    $cursos = array(
+      "idcurso" => "-1",
+      "curso_descricao" => "Nenhum curso cadastrado.",
+    );
   }
   /* free result set */
-  // $result->close();
+  $query->close();
 } else {
   printf("Error: %s\n", mysqli_error($link));
   exit();
 }
-// $mysqli->close();
-mysqli_close($link);
-// echo '</pre>';
+$link->close();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,20 +66,16 @@ mysqli_close($link);
   <div class="section hero">
     <div class="container">
       <div class="row">
-        <div class="one-half column">
-          <h1 class="hero-heading">Sistema de Cadastro de Alunos</h1>
-          <a class="button button-primary" href="aluno.php">Cadastrar</a>
-          <a class="button button-primary" href="aluno.php">Listar todos os alunos</a>
-        </div>
+        <h1 class="hero-heading">Sistema de Cadastro de Alunos</h1>
+        <a class="button button-primary" href="cadastrar_alunos.php">Cadastrar aluno</a>
+        <a class="button button-primary" href="listar_alunos.php">Listar todos os alunos</a>
       </div>
 
       <div class="row">
-        <div class="one-half column">
-          <h5>Listar alunos por curso:</h5>
-          <?php foreach ($cursos as $curso) : ?>
-          <a class="button" href="curso.php?acao=listar&id_curso=<?php echo $curso['id_curso']; ?>"><?php echo $curso['curso_descricao']; ?></a>
-          <?php endforeach ?>
-        </div>
+        <h5>Listar alunos por curso:</h5>
+        <?php foreach ($cursos as $curso) : ?>
+        <a class="button" href="curso.php?idcurso=<?php echo $curso['idcurso']; ?>"><?php echo $curso['curso_descricao']; ?></a>
+        <?php endforeach ?>
       </div>
 
     </div>
