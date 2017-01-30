@@ -75,6 +75,7 @@ $link->close();
           <a class="button button-primary" href="index.php">Cursos</a>
           <a class="button button-primary" href="cadastrar_alunos.php">Cadastrar aluno</a>
           <a class="button button-primary" href="listar_alunos.php">Listar todos os alunos</a>
+          <a class="button button-primary" href="listar_alunos.php?concluintes=true">Listar todos os concluíntes</a>
       </div>
 
       <div class="row">

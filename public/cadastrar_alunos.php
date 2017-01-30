@@ -29,6 +29,7 @@ if (!empty($_POST)) {
     printf("Error: %s\n", mysqli_error($link));
     die();
   }
+  header('Location: curso.php?idcurso=' . $_POST['curso']);
 }
 
 /* verifica se houve resultado com pelo menos uma linha */
@@ -95,6 +96,7 @@ $link->close();
           <h1 class="hero-heading">Sistema de Cadastro de Alunos</h1>
           <a class="button button-primary" href="index.php">Cursos</a>
           <a class="button button-primary" href="listar_alunos.php">Listar todos os alunos</a>
+          <a class="button button-primary" href="listar_alunos.php?concluintes=true">Listar todos os concluíntes</a>
       </div>
 
       <div class="row">

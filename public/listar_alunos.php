@@ -10,6 +10,13 @@ if (mysqli_connect_error()) {
   die('Connect Error (' . mysqli_connect_errno() . ') ' . mysqli_connect_error());
 }
 
+$sql_listar_somente_concluintes = '';
+$concluintes = false;
+if (isset($_GET['concluintes']) && boolval($_GET['concluintes'])) {
+  $sql_listar_somente_concluintes = 'AND matricula.semestre=4';
+  $concluintes = true;
+}
+
 /* verifica se houve resultado com pelo menos uma linha */
 if ($query = $link->query("SELECT matricula.numero_matricula
   ,aluno.nome_aluno
@@ -20,6 +27,9 @@ FROM aluno
 INNER JOIN matricula ON matricula.numero_matricula = aluno.numero_matricula
 INNER JOIN curso ON curso.idcurso = matricula.curso_id
 INNER JOIN turno ON turno.idturno = matricula.turno_id
+WHERE
+  matricula.numero_matricula > 0
+  ${sql_listar_somente_concluintes}
 ORDER BY aluno.nome_aluno ASC;")
   ) {
   if ($query->num_rows) {
@@ -73,10 +83,12 @@ $link->close();
           <h1 class="hero-heading">Sistema de Cadastro de Alunos</h1>
           <a class="button button-primary" href="index.php">Cursos</a>
           <a class="button button-primary" href="cadastrar_alunos.php">Cadastrar aluno</a>
+          <a class="button button-primary" href="listar_alunos.php">Listar todos os alunos</a>
+          <a class="button button-primary" href="listar_alunos.php?concluintes=true">Listar todos os concluíntes</a>
       </div>
 
       <div class="row">
-          <h5>Lista de alunos:</h5>
+          <h5>Lista de todos os alunos <?php echo ($concluintes) ? "concluíntes" : ""; ?>:</h5>
 
           <?php if (!$alunos) : ?>
             <p>Nenhum aluno cadastrado.</p>

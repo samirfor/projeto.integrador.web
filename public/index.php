@@ -69,6 +69,7 @@ $link->close();
         <h1 class="hero-heading">Sistema de Cadastro de Alunos</h1>
         <a class="button button-primary" href="cadastrar_alunos.php">Cadastrar aluno</a>
         <a class="button button-primary" href="listar_alunos.php">Listar todos os alunos</a>
+        <a class="button button-primary" href="listar_alunos.php?concluintes=true">Listar todos os concluíntes</a>
       </div>
 
       <div class="row">
